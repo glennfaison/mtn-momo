@@ -1,0 +1,36 @@
+{
+  "name": "mtn-momo",
+  "version": "1.0.0",
+  "description": "Node.js handler for the MTN Mobile Money API",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=testing mocha ./**/*.spec.js --exclude=./node_modules/**/* --no-timeouts --recursive --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glennfaison/mtn-momo.git"
+  },
+  "keywords": [
+    "MTN",
+    "Mobile",
+    "Money",
+    "API",
+    "JavaScript",
+    "Node",
+    "Node.js"
+  ],
+  "author": "Glenn Faison",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/glennfaison/mtn-momo/issues"
+  },
+  "homepage": "https://github.com/glennfaison/mtn-momo#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  }
+}
