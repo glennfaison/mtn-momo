@@ -35,12 +35,12 @@ const isActive = await collections.isAccountActive({
   accountHolderId: '<account-holder-id>'
 });
 
-// Submist a request for payment
+// Submit a request for payment
 const paymentOptions = {
   amount: "string", // A number as a string
   currency: "string",
   externalId: "string",
-  payer: {
+  payer: { // Account holder
     partyIdType: "MSISDN|EMAIL|PARTY_CODE",
     partyId: "string"
   },
@@ -63,11 +63,127 @@ const {
     partyIdType,
     partyId
   },
-  status: "SUCCESSFUL|FAILED|PENDING"
+  status: "SUCCESSFUL|FAILED|PENDING",
+  reason: {
+    code,
+    message
+  }
 } = status;
 
 // Check my account balance
 const accountBalance = await collections.fetchAccountBalance();
 const { availableBalance, currency } = accountBalance;
+
+/* End Collections API */
+
+
+
+/* Disbursements API */
+
+// (optional) Get an access token
+const token = await disbursements.getToken();
+const { access_token, token_type, expires_in } = token;
+
+// Check if an account is active. Returns a boolean value
+const isActive = await disbursements.isAccountActive({
+  accountHolderIdType: 'MSISDN|EMAIL|PARTY_CODE',
+  accountHolderId: '<account-holder-id>'
+});
+
+// Approve a request for payment
+const paymentOptions = {
+  amount: "string", // A number as a string
+  currency: "string",
+  externalId: "string",
+  payee: {
+    partyIdType: "MSISDN|EMAIL|PARTY_CODE",
+    partyId: "string"
+  },
+  payerMessage: "string",
+  payeeNote: "string"
+};
+const paymentId = await disbursements.initiate({
+  callbackUrl: '<callback-url>',
+  paymentOptions: paymentOptions
+});
+
+// Check the status of a payment
+const status = await disbursements.fetchStatus(paymentId);
+const {
+  amount,
+  currency,
+  financialTransactionId,
+  externalId,
+  payee: {
+    partyIdType,
+    partyId
+  },
+  status: "SUCCESSFUL|FAILED|PENDING",
+  reason: {
+    code,
+    message
+  }
+} = status;
+
+// Check my account balance
+const accountBalance = await disbursements.fetchAccountBalance();
+const { availableBalance, currency } = accountBalance;
+
+/* End Remittances API */
+
+
+
+/* Remittances API */
+
+// (optional) Get an access token
+const token = await remittances.getToken();
+const { access_token, token_type, expires_in } = token;
+
+// Check if an account is active. Returns a boolean value
+const isActive = await remittances.isAccountActive({
+  accountHolderIdType: 'MSISDN|EMAIL|PARTY_CODE',
+  accountHolderId: '<account-holder-id>'
+});
+
+// Approve a request for payment
+const paymentOptions = {
+  amount: "string", // A number as a string
+  currency: "string",
+  externalId: "string",
+  payee: {
+    partyIdType: "MSISDN|EMAIL|PARTY_CODE",
+    partyId: "string"
+  },
+  payerMessage: "string",
+  payeeNote: "string"
+};
+const paymentId = await remittances.initiate({
+  callbackUrl: '<callback-url>',
+  paymentOptions: paymentOptions
+});
+
+// Check the status of a payment
+const status = await remittances.fetchStatus(paymentId);
+const {
+  amount,
+  currency,
+  financialTransactionId,
+  externalId,
+  payee: {
+    partyIdType,
+    partyId
+  },
+  status: "SUCCESSFUL|FAILED|PENDING",
+  reason: {
+    code,
+    message
+  }
+} = status;
+
+// Check my account balance
+const accountBalance = await remittances.fetchAccountBalance();
+const { availableBalance, currency } = accountBalance;
+
+/* End Remittances API */
 
 ```
