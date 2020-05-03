@@ -15,9 +15,10 @@
         "ecmaVersion": 2018
     },
     "rules": {
-        "semi": [2, "always"],
+        "semi": [ 2, "always"],
         "comma-dangle": "error",
-        "no-unused-expressions": "off"
+        "no-unused-expressions": "off",
+        "camelcase": "off"
     },
     "ignorePatterns": [
         "**/node_modules/**"

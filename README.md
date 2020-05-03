@@ -12,12 +12,14 @@ const sandboxUserInfo = await momo.createApiUserAndKey({
   subscriptionKey: '<your-subscription-key>',
   providerCallbackHost: '<your-callback-host>'
 });
-const { userId, providerCallbackHost, targetEnvironment, apiKey } = sandboxUserInfo;
+const { userId, apiKey, providerCallbackHost, targetEnvironment } = sandboxUserInfo;
 
 // Initialize the wrapper
 const initializedWrapper = momo({
+  subscriptionKey: '<your-subscription-key>',
   apiKey: '<your-api-key>',
-  userId: '<your-user-id>'
+  userId: '<your-user-id>',
+  targetEnvironment: '<target-environment>'
 });
 const { collections, disbursements, remittances } = initializedWrapper;
 
@@ -47,13 +49,13 @@ const paymentOptions = {
   payerMessage: "string",
   payeeNote: "string"
 };
-const paymentId = await collections.initiate({
+const transactionId = await collections.initiate({
   callbackUrl: '<callback-url>',
   paymentOptions: paymentOptions
 });
 
 // Check the status of a request for payment
-const status = await collections.fetchStatus(paymentId);
+const transaction = await collections.fetchTransaction(transactionId);
 const {
   amount,
   currency,
@@ -68,7 +70,7 @@ const {
     code,
     message
   }
-} = status;
+} = transaction;
 
 // Check my account balance
 const accountBalance = await collections.fetchAccountBalance();
@@ -102,13 +104,13 @@ const paymentOptions = {
   payerMessage: "string",
   payeeNote: "string"
 };
-const paymentId = await disbursements.initiate({
+const transactionId = await disbursements.initiate({
   callbackUrl: '<callback-url>',
   paymentOptions: paymentOptions
 });
 
 // Check the status of a payment
-const status = await disbursements.fetchStatus(paymentId);
+const transaction = await disbursements.fetchTransaction(transactionId);
 const {
   amount,
   currency,
@@ -123,7 +125,7 @@ const {
     code,
     message
   }
-} = status;
+} = transaction;
 
 // Check my account balance
 const accountBalance = await disbursements.fetchAccountBalance();
@@ -157,13 +159,13 @@ const paymentOptions = {
   payerMessage: "string",
   payeeNote: "string"
 };
-const paymentId = await remittances.initiate({
+const transactionId = await remittances.initiate({
   callbackUrl: '<callback-url>',
   paymentOptions: paymentOptions
 });
 
 // Check the status of a payment
-const status = await remittances.fetchStatus(paymentId);
+const transaction = await remittances.fetchTransaction(transactionId);
 const {
   amount,
   currency,
@@ -178,7 +180,7 @@ const {
     code,
     message
   }
-} = status;
+} = transaction;
 
 // Check my account balance
 const accountBalance = await remittances.fetchAccountBalance();

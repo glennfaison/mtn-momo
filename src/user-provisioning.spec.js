@@ -1,7 +1,7 @@
 const { describe, it } = require('mocha');
 const { expect } = require('chai');
 
-const momo = require('../src/user-provisioning');
+const momo = require('./user-provisioning');
 
 describe('Sandbox User Provisioning', () => {
   it('should create a sandbox user and api key', async () => {
