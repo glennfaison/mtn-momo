@@ -6,7 +6,7 @@ const { initDisbursements, userProvisioning } = require('.');
 
 config();
 
-describe.skip('Single run-through for Disbursements API', () => {
+describe.only('Single run-through for Disbursements API', () => {
   it('should not throw', async () => {
     // Import package
 
@@ -46,7 +46,7 @@ describe.skip('Single run-through for Disbursements API', () => {
       amount: 15000,
       currency: 'EUR',
       externalId: '123456789',
-      payer: { // Account holder
+      payee: { // Account holder
         partyIdType: 'msisdn',
         partyId: '237675611933'
       },
