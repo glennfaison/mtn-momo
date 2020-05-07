@@ -22,7 +22,7 @@
   "author": "Glenn Faison",
   "license": "ISC",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://npm.pkg.github.com/glennfaison"
   },
   "bugs": {
     "url": "https://github.com/glennfaison/mtn-momo/issues"
