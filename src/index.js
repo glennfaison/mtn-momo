@@ -1,8 +1,6 @@
 const userProvisioning = require('./user-provisioning');
 const BaseAPI = require('./base');
 
-// #region API credentials
-
 /**
  *  Initialize the MoMo Collections API wrapper
  *  @param {Object} options
@@ -35,8 +33,6 @@ function initDisbursements ({ userId, apiKey, subscriptionKey, targetEnvironment
 function initRemittances ({ userId, apiKey, subscriptionKey, targetEnvironment }) {
   return new BaseAPI({ userId, apiKey, subscriptionKey, targetEnvironment, subApi: 'remittance' });
 }
-
-// #endregion API credentials
 
 module.exports = {
   initCollections,
