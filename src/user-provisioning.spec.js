@@ -2,13 +2,13 @@ const { describe, it } = require('mocha');
 const { expect } = require('chai');
 const { config } = require('dotenv');
 
-const { userProvisioning } = require('.');
+const { useUserProvisioning } = require('.');
 
 config();
 
 describe('Sandbox User Provisioning', () => {
   it('should create a sandbox user and api key', async () => {
-    const sandboxUserInfo = await userProvisioning.createApiUserAndKey({
+    const sandboxUserInfo = await useUserProvisioning.createApiUserAndKey({
       subscriptionKey: process.env.DISBURSEMENTS_PRIMARY_KEY,
       providerCallbackHost: process.env.PROVIDER_CALLBACK_HOST
     });
