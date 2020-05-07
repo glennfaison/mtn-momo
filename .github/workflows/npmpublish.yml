@@ -18,6 +18,16 @@ jobs:
           node-version: 12
       - run: yarn install
       - run: yarn test
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          PROVIDER_CALLBACK_HOST: ${{secrets.PROVIDER_CALLBACK_HOST}}
+          TARGET_ENVIRONMENT: ${{secrets.TARGET_ENVIRONMENT}}
+          COLLECTIONS_PRIMARY_KEY: ${{secrets.COLLECTIONS_PRIMARY_KEY}}
+          COLLECTIONS_SECONDARY_KEY: ${{secrets.COLLECTIONS_SECONDARY_KEY}}
+          DISBURSEMENTS_PRIMARY_KEY: ${{secrets.DISBURSEMENTS_PRIMARY_KEY}}
+          DISBURSEMENTS_SECONDARY_KEY: ${{secrets.DISBURSEMENTS_SECONDARY_KEY}}
+          REMITTANCES_PRIMARY_KEY: ${{secrets.REMITTANCES_PRIMARY_KEY}}
+          REMITTANCES_SECONDARY_KEY: ${{secrets.REMITTANCES_SECONDARY_KEY}}
 
   publish-gpr:
     needs: build
@@ -34,13 +44,3 @@ jobs:
       - run: yarn version --minor
       - run: git push --tags && git push
       - run: yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          PROVIDER_CALLBACK_HOST: ${{secrets.PROVIDER_CALLBACK_HOST}}
-          TARGET_ENVIRONMENT: ${{secrets.TARGET_ENVIRONMENT}}
-          COLLECTIONS_PRIMARY_KEY: ${{secrets.COLLECTIONS_PRIMARY_KEY}}
-          COLLECTIONS_SECONDARY_KEY: ${{secrets.COLLECTIONS_SECONDARY_KEY}}
-          DISBURSEMENTS_PRIMARY_KEY: ${{secrets.DISBURSEMENTS_PRIMARY_KEY}}
-          DISBURSEMENTS_SECONDARY_KEY: ${{secrets.DISBURSEMENTS_SECONDARY_KEY}}
-          REMITTANCES_PRIMARY_KEY: ${{secrets.REMITTANCES_PRIMARY_KEY}}
-          REMITTANCES_SECONDARY_KEY: ${{secrets.REMITTANCES_SECONDARY_KEY}}
