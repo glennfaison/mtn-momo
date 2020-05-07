@@ -2,7 +2,7 @@ const { describe, it } = require('mocha');
 const { expect } = require('chai');
 const { config } = require('dotenv');
 
-const { initRemittances, userProvisioning } = require('.');
+const { useRemittances, useUserProvisioning } = require('.');
 
 config();
 
@@ -13,14 +13,14 @@ describe.only('Single run-through for Remittances API', () => {
     const subscriptionKey = process.env.REMITTANCES_PRIMARY_KEY;
 
     // (sandbox/development environment only) Provision/create a user and api key
-    const sandboxUserInfo = await userProvisioning.createApiUserAndKey({
+    const sandboxUserInfo = await useUserProvisioning.createApiUserAndKey({
       subscriptionKey: subscriptionKey,
       providerCallbackHost: process.env.PROVIDER_CALLBACK_HOST
     });
     const { userId, apiKey, targetEnvironment } = sandboxUserInfo;
 
     // Initialize the wrapper
-    const remittances = initRemittances({
+    const remittances = useRemittances({
       subscriptionKey,
       apiKey,
       userId,

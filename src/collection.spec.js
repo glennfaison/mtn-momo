@@ -2,7 +2,7 @@ const { describe, it } = require('mocha');
 const { expect } = require('chai');
 const { config } = require('dotenv');
 
-const { userProvisioning, initCollections } = require('.');
+const { useUserProvisioning, useCollections } = require('.');
 
 config();
 
@@ -11,14 +11,14 @@ describe('Single run-through for Collection API', () => {
     const subscriptionKey = process.env.COLLECTIONS_PRIMARY_KEY;
 
     // (sandbox/development environment only) Provision/create a user and api key
-    const sandboxUserInfo = await userProvisioning.createApiUserAndKey({
+    const sandboxUserInfo = await useUserProvisioning.createApiUserAndKey({
       subscriptionKey: subscriptionKey,
       providerCallbackHost: process.env.PROVIDER_CALLBACK_HOST
     });
     const { userId, apiKey, targetEnvironment } = sandboxUserInfo;
 
     // Initialize the wrapper
-    const collections = initCollections({
+    const collections = useCollections({
       subscriptionKey,
       apiKey,
       userId,

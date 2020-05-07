@@ -1,4 +1,4 @@
-const userProvisioning = require('./user-provisioning');
+const useUserProvisioning = require('./user-provisioning');
 const BaseAPI = require('./base');
 
 /**
@@ -8,7 +8,7 @@ const BaseAPI = require('./base');
  *  @param {string} options.apiKey the api key
  *  @returns {BaseAPI}
  */
-function initCollections ({ userId, apiKey, subscriptionKey, targetEnvironment }) {
+function useCollections ({ userId, apiKey, subscriptionKey, targetEnvironment }) {
   return new BaseAPI({ userId, apiKey, subscriptionKey, targetEnvironment, subApi: 'collection' });
 }
 
@@ -19,7 +19,7 @@ function initCollections ({ userId, apiKey, subscriptionKey, targetEnvironment }
  *  @param {string} options.apiKey the api key
  *  @returns {BaseAPI}
  */
-function initDisbursements ({ userId, apiKey, subscriptionKey, targetEnvironment }) {
+function useDisbursements ({ userId, apiKey, subscriptionKey, targetEnvironment }) {
   return new BaseAPI({ userId, apiKey, subscriptionKey, targetEnvironment, subApi: 'disbursement' });
 }
 
@@ -30,15 +30,15 @@ function initDisbursements ({ userId, apiKey, subscriptionKey, targetEnvironment
  *  @param {string} options.apiKey the api key
  *  @returns {BaseAPI}
  */
-function initRemittances ({ userId, apiKey, subscriptionKey, targetEnvironment }) {
+function useRemittances ({ userId, apiKey, subscriptionKey, targetEnvironment }) {
   return new BaseAPI({ userId, apiKey, subscriptionKey, targetEnvironment, subApi: 'remittance' });
 }
 
 module.exports = {
-  initCollections,
-  initDisbursements,
-  initRemittances,
-  userProvisioning
+  useCollections,
+  useDisbursements,
+  useRemittances,
+  useUserProvisioning
 };
 
 /** @typedef {import('./base').MtnMomoUser} MtnMomoUser */

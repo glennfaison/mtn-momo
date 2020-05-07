@@ -2,7 +2,7 @@ const { describe, it } = require('mocha');
 const { expect } = require('chai');
 const { config } = require('dotenv');
 
-const { initDisbursements, userProvisioning } = require('.');
+const { useDisbursements, useUserProvisioning } = require('.');
 
 config();
 
@@ -13,14 +13,14 @@ describe('Single run-through for Disbursements API', () => {
     const subscriptionKey = process.env.DISBURSEMENTS_PRIMARY_KEY;
 
     // (sandbox/development environment only) Provision/create a user and api key
-    const sandboxUserInfo = await userProvisioning.createApiUserAndKey({
+    const sandboxUserInfo = await useUserProvisioning.createApiUserAndKey({
       subscriptionKey: subscriptionKey,
       providerCallbackHost: process.env.PROVIDER_CALLBACK_HOST
     });
     const { userId, apiKey, targetEnvironment } = sandboxUserInfo;
 
     // Initialize the wrapper
-    const disbursements = initDisbursements({
+    const disbursements = useDisbursements({
       subscriptionKey,
       apiKey,
       userId,
