@@ -6,7 +6,7 @@ const { userProvisioning, initCollections } = require('.');
 
 config();
 
-describe.only('Single run-through for Collection API', () => {
+describe('Single run-through for Collection API', () => {
   it('should not throw', async () => {
     const subscriptionKey = process.env.COLLECTIONS_PRIMARY_KEY;
 
