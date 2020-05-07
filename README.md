@@ -64,7 +64,7 @@ const {
     partyIdType,
     partyId
   },
-  status: "SUCCESSFUL|FAILED|PENDING",
+  status: 'SUCCESSFUL|FAILED|PENDING',
   reason: {
     code,
     message
