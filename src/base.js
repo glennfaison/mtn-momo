@@ -169,14 +169,6 @@ class BaseAPI {
 // #region JS Docs Type Definitions
 
 /**
- *  @typedef Collection
- *    @property {(baseUrl:string, ocpApimSubscriptionKey:string) => void} initialize
- *    @property {(options: {providerCallbackHost:string}) => Promise<void>} createApiUser
- *    @property {(xReferenceId: string) => Promise<any>} fetchApiUser
- *    @property {(xReferenceId: string) => Promise<any>} createApiKey
- */
-
-/**
  *  @typedef AccessToken
  *    @property {string} access_token
  *    @property {string} token_type
@@ -207,12 +199,11 @@ class BaseAPI {
 /**
  *  @typedef AccountBalance
  *    @property {number} availableBalance
- *    @property {string} [currency=EUR]
+ *    @property {string} [currency='EUR']
  */
 
 /**
  *  @typedef MtnMomoUser
- *    @property {string} callbackHost
  *    @property {string} subscriptionKey
  *    @property {string} referenceId
  *    @property {string} apiKey
