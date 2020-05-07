@@ -12,10 +12,9 @@ describe('Sandbox User Provisioning', () => {
       subscriptionKey: process.env.DISBURSEMENTS_PRIMARY_KEY,
       providerCallbackHost: process.env.PROVIDER_CALLBACK_HOST
     });
-    const { userId, providerCallbackHost, targetEnvironment, apiKey } = sandboxUserInfo;
+    const { userId, targetEnvironment, apiKey } = sandboxUserInfo;
 
     expect(userId).to.be.a('string');
-    expect(providerCallbackHost).to.be.a('string');
     expect(targetEnvironment).to.equal('sandbox');
     expect(apiKey).to.be.a('string');
   });
