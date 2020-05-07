@@ -20,7 +20,7 @@
     "Node.js"
   ],
   "author": "Glenn Faison",
-  "license": "ISC",
+  "license": "MIT",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/glennfaison"
   },
