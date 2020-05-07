@@ -5,19 +5,19 @@ Node.js wrapper for the MTN Mobile Money API
 ```javascript
 
 // Import the module
-const { userProvisioning, initCollections } = require('mtn-momo');
+const { useUserProvisioning, useCollections } = require('mtn-momo');
 
 const subscriptionKey = 'COLLECTIONS_PRIMARY_KEY';
 
 // (sandbox/development environment only) Provision/create a user and api key
-const sandboxUserInfo = await userProvisioning.createApiUserAndKey({
+const sandboxUserInfo = await useUserProvisioning.createApiUserAndKey({
   subscriptionKey: subscriptionKey,
   providerCallbackHost: 'PROVIDER_CALLBACK_HOST'
 });
 const { userId, apiKey, targetEnvironment } = sandboxUserInfo;
 
 // Initialize the wrapper
-const collections = initCollections({
+const collections = useCollections({
   subscriptionKey,
   apiKey,
   userId,
@@ -48,7 +48,7 @@ const paymentOptions = {
   payerMessage: 'message',
   payeeNote: 'note'
 };
-const transactionId = await collections.initiate({
+const transactionId = await collections.useiate({
   callbackUrl: 'http://test1.com',
   paymentOptions: paymentOptions
 });
@@ -85,19 +85,19 @@ const { currency, availableBalance } = accountBalance;
 ```javascript
 
 // Import the module
-const { userProvisioning, initDisbursements } = require('mtn-momo');
+const { useUserProvisioning, useDisbursements } = require('mtn-momo');
 
 const subscriptionKey = 'DISBURSEMENTS_PRIMARY_KEY';
 
 // (sandbox/development environment only) Provision/create a user and api key
-const sandboxUserInfo = await userProvisioning.createApiUserAndKey({
+const sandboxUserInfo = await useUserProvisioning.createApiUserAndKey({
   subscriptionKey: subscriptionKey,
   providerCallbackHost: 'PROVIDER_CALLBACK_HOST'
 });
 const { userId, apiKey, targetEnvironment } = sandboxUserInfo;
 
 // Initialize the wrapper
-const disbursements = initDisbursements({
+const disbursements = useDisbursements({
   subscriptionKey,
   apiKey,
   userId,
@@ -128,7 +128,7 @@ const paymentOptions = {
   payerMessage: 'message',
   payeeNote: 'note'
 };
-const transactionId = await disbursements.initiate({
+const transactionId = await disbursements.useiate({
   callbackUrl: 'http://test1.com',
   paymentOptions: paymentOptions
 });
@@ -165,19 +165,19 @@ const { currency, availableBalance } = accountBalance;
 ```javascript
 
 // Import the module
-const { userProvisioning, initRemittances } = require('mtn-momo');
+const { useUserProvisioning, useRemittances } = require('mtn-momo');
 
 const subscriptionKey = 'REMITTANCES_PRIMARY_KEY';
 
 // (sandbox/development environment only) Provision/create a user and api key
-const sandboxUserInfo = await userProvisioning.createApiUserAndKey({
+const sandboxUserInfo = await useUserProvisioning.createApiUserAndKey({
   subscriptionKey: subscriptionKey,
   providerCallbackHost: 'PROVIDER_CALLBACK_HOST'
 });
 const { userId, apiKey, targetEnvironment } = sandboxUserInfo;
 
 // Initialize the wrapper
-const remittances = initRemittances({
+const remittances = useRemittances({
   subscriptionKey,
   apiKey,
   userId,
@@ -208,7 +208,7 @@ const paymentOptions = {
   payerMessage: 'message',
   payeeNote: 'note'
 };
-const transactionId = await remittances.initiate({
+const transactionId = await remittances.useiate({
   callbackUrl: 'http://test1.com',
   paymentOptions: paymentOptions
 });
