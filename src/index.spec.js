@@ -1,72 +1,80 @@
-const { describe, it } = require('mocha');
-const { expect } = require('chai');
-const { config } = require('dotenv');
+// const { describe, it, before } = require('mocha');
+// const { expect } = require('chai');
 
-config();
+// const momo = require('../src/collection');
 
-describe.only('Single run-through', () => {
-  it('should not throw', async () => {
-    // Import package
-    const momo = require('.');
+// let collections;
 
-    const subscriptionKey = process.env.SUBSCRIPTION_KEY;
+// describe.skip('Collection API', () => {
+//   before(async () => {
+//     // Generate a user and api key
+//     const sandboxUserInfo = await momo.createApiUserAndKey({
+//       subscriptionKey: '<your-subscription-key>',
+//       providerCallbackHost: '<your-callback-host>'
+//     });
+//     const { userId, apiKey } = sandboxUserInfo;
 
-    // (sandbox/development environment only) Provision/create a user and api key
-    const sandboxUserInfo = await momo.createApiUserAndKey({
-      subscriptionKey: subscriptionKey,
-      providerCallbackHost: process.env.PROVIDER_CALLBACK_HOST
-    });
-    const { userId, apiKey, targetEnvironment } = sandboxUserInfo;
+//     // Initialize the wrapper
+//     const initializedWrapper = momo({ apiKey, userId });
+//     collections = initializedWrapper.collections;
+//   });
 
-    // Initialize the wrapper
-    const initializedWrapper = momo({
-      subscriptionKey,
-      apiKey,
-      userId,
-      targetEnvironment
-    });
-    const { collections } = initializedWrapper;
+//   describe('Creating an access token', () => {
+//     it('should return a valid token', async () => {
+//       const token = await collections.getToken();
+//       const { access_token, token_type, expires_in } = token;
 
-    /* Collections API */
+//       expect(access_token).to.be.a('string');
+//       expect(token_type).to.be.a('string');
+//       expect(expires_in).to.be.a('number');
+//       expect(expires_in > Date.now()).to.be.true;
+//     });
+//   });
 
-    // (optional) Get an access token
-    const token = await collections.getToken();
-    expect(token).to.have.property('expires_in');
-    expect(token.expires_in).to.be.lessThan(Date.now());
+//   describe('Checking if an account is active', () => {
+//     it('should return true for valid phone number', async () => {
+//       const isActive = await collections.isAccountActive({
+//         accountHolderIdType: 'MSISDN|EMAIL|PARTY_CODE',
+//         accountHolderId: '<account-holder-id>'
+//       });
+//       expect(isActive).to.be.true;
+//     });
 
-    // Check if an account is active. Returns a boolean value
-    const isActive = await collections.isAccountActive({
-      accountHolderIdType: 'MSISDN',
-      accountHolderId: '237675611933'
-    });
-    expect(isActive).to.be.a('boolean');
+//     it('should return false for invalid phone number', async () => {
+//       const isActive = await collections.isAccountActive({
+//         accountHolderIdType: 'MSISDN|EMAIL|PARTY_CODE',
+//         accountHolderId: '<account-holder-id>'
+//       });
+//       expect(isActive).to.be.false;
+//     });
+//   });
 
-    // Submit a request for payment
-    const paymentOptions = {
-      amount: 15000,
-      currency: 'EUR',
-      externalId: '0123456789',
-      payer: { // Account holder
-        partyIdType: 'MSISDN',
-        partyId: '237675611933'
-      },
-      payerMessage: 'message',
-      payeeNote: 'note'
-    };
-    const transactionId = await collections.initiate({
-      callbackUrl: 'http://test.com',
-      paymentOptions: paymentOptions
-    });
-    expect(transactionId).to.be.a('string');
+//   describe('Requesting a payment', () => {
+//     it('should not throw for valid parameters', async () => {
+//     });
 
-    // Check the status of a request for payment
-    const transaction = await collections.fetchTransaction(transactionId);
-    expect(transaction).to.be.an('object');
+//     it('should throw for invalid parameters', async () => {
+//     });
+//   });
 
-    // Check my account balance
-    const accountBalance = await collections.fetchAccountBalance();
-    expect(accountBalance).to.be.an('object');
+//   describe('Verifying the status of a payment', () => {
+//     it('should have a status of \'FAILED\' for the number ', async () => {
+//     });
 
-    /* End Collections API */
-  });
-});
+//     it('should have a status of \'REJECTED\' for the number ', async () => {
+//     });
+
+//     it('should have a status of \'TIMEOUT\' for the number ', async () => {
+//     });
+
+//     it('should have a status of \'PENDING\' for the number ', async () => {
+//     });
+
+//     it('should have a status of \'SUCCESS\' for the number ', async () => {
+//     });
+//   });
+
+//   describe('Fetching my account balance', () => {
+//     it('should not throw', async () => {});
+//   });
+// });

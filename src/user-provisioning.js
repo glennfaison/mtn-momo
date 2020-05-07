@@ -20,7 +20,7 @@ class UserProvisioningAPI {
    *  @param {object} options
    *  @param {number} options.providerCallbackHost The provider callback host
    *  @param {string} options.subscriptionKey Subscription key which provides access to this API
-   *  @returns {Promise<{string}>} a `referenceId`
+   *  @returns {Promise<string>} a `referenceId`
    */
   async createApiUser ({ providerCallbackHost, subscriptionKey }) {
     const path = `${baseUrl}/v1_0/apiuser`;
@@ -72,6 +72,21 @@ class UserProvisioningAPI {
       }
     });
     if (res.status === HttpStatus.CREATED) { return res.data.apiKey; }
+  }
+
+  /**
+   *  Generate credentials in `sandbox`/`development` mode
+   *  @param {Object} options
+   *  @param {string} options.subscriptionKey Subscription key which provides access to this API
+   *  @param {string} options.providerCallbackHost The provider callback host
+   *  @returns {Promise<{ userId: string, apiKey: string, targetEnvironment: string }>} a user with credentials
+   */
+  async createApiUserAndKey ({ subscriptionKey, providerCallbackHost }) {
+    const userId = await this.createApiUser({ providerCallbackHost, subscriptionKey });
+    const { targetEnvironment } = await this.fetchApiUser({ userId, subscriptionKey });
+    const apiKey = await this.createApiKey({ userId, subscriptionKey });
+
+    return { userId, apiKey, targetEnvironment };
   }
 }
 

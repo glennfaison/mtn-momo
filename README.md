@@ -6,6 +6,7 @@ Node.js wrapper for the MTN Mobile Money API
 
 // Import package
 const momo = require('mtn-momo');
+const { createApiUserAndKey } = require('mtn-momo');
 
 // (sandbox/development environment only) Provision/create a user and api key
 const sandboxUserInfo = await momo.createApiUserAndKey({
@@ -26,6 +27,21 @@ const { collections, disbursements, remittances } = initializedWrapper;
 
 
 /* Collections API */
+
+// (sandbox/development environment only) Provision/create a user and api key
+let sandboxUserInfo = await createApiUserAndKey({
+  subscriptionKey: '<collections-subscription-key>',
+  providerCallbackHost: '<collections-callback-host>'
+});
+let { userId, apiKey, providerCallbackHost, targetEnvironment } = sandboxUserInfo;
+
+// Initialize the wrapper
+const collections = initCollections({
+  subscriptionKey: '<collections-subscription-key>',
+  apiKey: '<collections-api-key>',
+  userId: '<collections-user-id>',
+  targetEnvironment: '<target-environment>'
+});
 
 // (optional) Get an access token
 const token = await collections.getToken();

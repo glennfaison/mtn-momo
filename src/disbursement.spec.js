@@ -2,13 +2,15 @@ const { describe, it } = require('mocha');
 const { expect } = require('chai');
 const { config } = require('dotenv');
 
-const { userProvisioning, initCollections } = require('.');
+const { initDisbursements, userProvisioning } = require('.');
 
 config();
 
-describe.only('Single run-through for Collection API', () => {
+describe.skip('Single run-through for Disbursements API', () => {
   it('should not throw', async () => {
-    const subscriptionKey = process.env.COLLECTIONS_PRIMARY_KEY;
+    // Import package
+
+    const subscriptionKey = process.env.DISBURSEMENTS_PRIMARY_KEY;
 
     // (sandbox/development environment only) Provision/create a user and api key
     const sandboxUserInfo = await userProvisioning.createApiUserAndKey({
@@ -18,28 +20,28 @@ describe.only('Single run-through for Collection API', () => {
     const { userId, apiKey, targetEnvironment } = sandboxUserInfo;
 
     // Initialize the wrapper
-    const collections = initCollections({
+    const disbursements = initDisbursements({
       subscriptionKey,
       apiKey,
       userId,
       targetEnvironment
     });
 
-    /* Collections API */
+    /* Disbursements API */
 
     // (optional) Get an access token
-    const token = await collections.getToken();
+    const token = await disbursements.getToken();
     expect(token).to.have.property('expires_in');
     expect(token.expires_in).to.be.lessThan(Date.now());
 
     // Check if an account is active. Returns a boolean value
-    const isActive = await collections.isAccountActive({
+    const isActive = await disbursements.isAccountActive({
       accountHolderIdType: 'msisdn',
       accountHolderId: '237675611933'
     });
     expect(isActive).to.be.a('boolean');
 
-    // Submit a request for payment
+    // Approve a request for payment
     const paymentOptions = {
       amount: 15000,
       currency: 'EUR',
@@ -51,20 +53,20 @@ describe.only('Single run-through for Collection API', () => {
       payerMessage: 'message',
       payeeNote: 'note'
     };
-    const transactionId = await collections.initiate({
-      callbackUrl: 'http://test1.com',
+    const transactionId = await disbursements.initiate({
+      callbackUrl: 'http://test.com',
       paymentOptions: paymentOptions
     });
     expect(transactionId).to.be.a('string');
 
-    // Check the status of a request for payment
-    const transaction = await collections.fetchTransaction(transactionId);
+    // Check the status of a for payment
+    const transaction = await disbursements.fetchTransaction(transactionId);
     expect(transaction).to.be.an('object');
 
     // Check my account balance
-    const accountBalance = await collections.fetchAccountBalance();
+    const accountBalance = await disbursements.fetchAccountBalance();
     expect(accountBalance).to.be.an('object');
 
-    /* End Collections API */
+    /* End Disbursements API */
   });
 });

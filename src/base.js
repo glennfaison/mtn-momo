@@ -8,26 +8,22 @@ const { v4: uuid } = require('uuid');
  *  @abstract
  */
 class BaseAPI {
-  constructor ({ userId, apiKey, subscriptionKey, targetEnvironment }) {
+  constructor ({ userId, apiKey, subscriptionKey, targetEnvironment, subApi }) {
     /** @type {string} */ this.defaultContentType = 'application/json';
     /** @type {string} */ this.baseUrl = 'https://sandbox.momodeveloper.mtn.com';
-    /** @type {SubAPI} */ this.subApi = null; // This will be filled in sub-classes
+    /** @type {SubAPI} */ this.subApi = subApi;
 
     /** @type {string} */ this.userId = userId;
     /** @type {string} */ this.apiKey = apiKey;
     /** @type {string} */ this.subscriptionKey = subscriptionKey;
     /** @type {string} */ this.targetEnvironment = targetEnvironment;
-    /** @type {string} */ this.authorization = Buffer
-      .from(`${userId}:${apiKey}`)
-      .toString('base64');
-    /** @type {string} */ this.accessToken = null;
+    /** @type {AccessToken} */ this.accessToken = null;
     /** @type {MtnMomoUser} */ this.apiUser = null;
 
     this.headers = () => ({
       'Content-Type': this.defaultContentType,
       'X-Target-Environment': this.targetEnvironment,
-      'Ocp-Apim-Subscription-Key': this.subscriptionKey,
-      Authorization: `Basic ${this.authorization}`
+      'Ocp-Apim-Subscription-Key': this.subscriptionKey
     });
   }
 
@@ -37,15 +33,19 @@ class BaseAPI {
    *  @returns {Promise<AccessToken>}
    */
   async getToken () {
-    const path = `${this.baseUrl}/${this.subApi}/token`;
-    this.authorization = Buffer
+    const path = `${this.baseUrl}/${this.subApi}/token/`;
+    const authorization = Buffer
       .from(`${this.userId}:${this.apiKey}`)
       .toString('base64');
     try {
       const res = await axios.post(path, {}, {
-        headers: { ...this.headers() }
+        headers: {
+          ...this.headers(),
+          Authorization: `Basic ${authorization}`
+        }
       });
-      if (res.status === HttpStatus.CREATED) {
+      if (res.status === HttpStatus.OK) {
+        this.accessToken = res.data;
         return res.data;
       }
     } catch (e) {
@@ -68,9 +68,12 @@ class BaseAPI {
   async isAccountActive ({ accountHolderIdType, accountHolderId }) {
     const path = `${this.baseUrl}/${this.subApi}/v1_0/accountholder/${accountHolderIdType}/${accountHolderId}/active`;
     const res = await axios.get(path, {
-      headers: { ...this.headers() }
+      headers: {
+        ...this.headers(),
+        Authorization: `Bearer ${this.accessToken.access_token}`
+      }
     });
-    if (res.status === HttpStatus.OK) { return res.data.data; }
+    if (res.status === HttpStatus.OK) { return res.data.result; }
   }
 
   /**
@@ -92,14 +95,24 @@ class BaseAPI {
     };
     const path = transactionUrl[this.subApi];
     const transactionId = uuid();
-    await axios.post(path, paymentOptions, {
-      headers: {
-        ...this.headers(),
-        'X-Callback-Url': callbackUrl,
-        'X-Reference-Id': transactionId
+    try {
+      const res = await axios.post(path, paymentOptions, {
+        headers: {
+          ...this.headers(),
+          /* Had to comment out the callback url to avoid an error */
+          // 'X-Callback-Url': callbackUrl,
+          'X-Reference-Id': transactionId,
+          Authorization: `Bearer ${this.accessToken.access_token}`
+        }
+      });
+      if (res.status !== HttpStatus.ACCEPTED) {
+        throw res.error || res.data;
       }
-    });
-    return transactionId;
+      return transactionId;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
 
   /**
@@ -108,10 +121,19 @@ class BaseAPI {
    */
   async fetchAccountBalance () {
     const path = `${this.baseUrl}/${this.subApi}/v1_0/account/balance`;
-    const res = await axios.get(path, {
-      headers: { ...this.headers() }
-    });
-    if (res.status === HttpStatus.OK) { return res.data; }
+    try {
+      const res = await axios.get(path, {
+        headers: {
+          ...this.headers(),
+          Authorization: `Bearer ${this.accessToken.access_token}`
+        }
+      });
+      if (res.status !== HttpStatus.OK) { throw res.error || res.data; }
+      return res.data;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
 
   /**
@@ -126,10 +148,21 @@ class BaseAPI {
       remittance: `${this.baseUrl}/${this.subApi}/v1_0/transfer/${referenceId}`
     };
     const path = transactionUrl[this.subApi];
-    const res = await axios.get(path, {
-      headers: { ...this.headers() }
-    });
-    if (res.status === HttpStatus.OK) { return res.data; }
+    try {
+      const res = await axios.get(path, {
+        headers: {
+          ...this.headers(),
+          Authorization: `Bearer ${this.accessToken.access_token}`
+        }
+      });
+      if (res.status !== HttpStatus.OK) {
+        throw res.error || res.data;
+      }
+      return res.data;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
 }
 
