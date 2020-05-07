@@ -1,72 +1,55 @@
 # mtn-momo
 Node.js wrapper for the MTN Mobile Money API
 
-## Usage
+## Using the Collections API
 ```javascript
 
-// Import package
-const momo = require('mtn-momo');
-const { createApiUserAndKey } = require('mtn-momo');
+// Import the module
+const { userProvisioning, initCollections } = require('mtn-momo');
+
+const subscriptionKey = 'COLLECTIONS_PRIMARY_KEY';
 
 // (sandbox/development environment only) Provision/create a user and api key
-const sandboxUserInfo = await momo.createApiUserAndKey({
-  subscriptionKey: '<your-subscription-key>',
-  providerCallbackHost: '<your-callback-host>'
+const sandboxUserInfo = await userProvisioning.createApiUserAndKey({
+  subscriptionKey: subscriptionKey,
+  providerCallbackHost: 'PROVIDER_CALLBACK_HOST'
 });
-const { userId, apiKey, providerCallbackHost, targetEnvironment } = sandboxUserInfo;
-
-// Initialize the wrapper
-const initializedWrapper = momo({
-  subscriptionKey: '<your-subscription-key>',
-  apiKey: '<your-api-key>',
-  userId: '<your-user-id>',
-  targetEnvironment: '<target-environment>'
-});
-const { collections, disbursements, remittances } = initializedWrapper;
-
-
-
-/* Collections API */
-
-// (sandbox/development environment only) Provision/create a user and api key
-let sandboxUserInfo = await createApiUserAndKey({
-  subscriptionKey: '<collections-subscription-key>',
-  providerCallbackHost: '<collections-callback-host>'
-});
-let { userId, apiKey, providerCallbackHost, targetEnvironment } = sandboxUserInfo;
+const { userId, apiKey, targetEnvironment } = sandboxUserInfo;
 
 // Initialize the wrapper
 const collections = initCollections({
-  subscriptionKey: '<collections-subscription-key>',
-  apiKey: '<collections-api-key>',
-  userId: '<collections-user-id>',
-  targetEnvironment: '<target-environment>'
+  subscriptionKey,
+  apiKey,
+  userId,
+  targetEnvironment
 });
+
+/* Collections API */
 
 // (optional) Get an access token
 const token = await collections.getToken();
-const { access_token, token_type, expires_in } = token;
+const { token_type, access_token, expires_in } = token;
 
 // Check if an account is active. Returns a boolean value
 const isActive = await collections.isAccountActive({
-  accountHolderIdType: 'MSISDN|EMAIL|PARTY_CODE',
-  accountHolderId: '<account-holder-id>'
+  accountHolderIdType: 'msisdn',
+  accountHolderId: 'PHONE_NUMBER'
 });
 
 // Submit a request for payment
 const paymentOptions = {
-  amount: "string", // A number as a string
-  currency: "string",
-  externalId: "string",
-  payer: { // Account holder
-    partyIdType: "MSISDN|EMAIL|PARTY_CODE",
-    partyId: "string"
+  amount: 15000,
+  currency: 'EUR',
+  externalId: '123456789',
+  payer: {
+    partyIdType: 'msisdn',
+    partyId: 'PHONE_NUMBER'
   },
-  payerMessage: "string",
-  payeeNote: "string"
+  payerMessage: 'message',
+  payeeNote: 'note'
 };
 const transactionId = await collections.initiate({
-  callbackUrl: '<callback-url>',
+  callbackUrl: 'http://test1.com',
   paymentOptions: paymentOptions
 });
 
@@ -90,118 +73,8 @@ const {
 
 // Check my account balance
 const accountBalance = await collections.fetchAccountBalance();
-const { availableBalance, currency } = accountBalance;
+const { currency, availableBalance } = accountBalance;
 
 /* End Collections API */
-
-
-
-/* Disbursements API */
-
-// (optional) Get an access token
-const token = await disbursements.getToken();
-const { access_token, token_type, expires_in } = token;
-
-// Check if an account is active. Returns a boolean value
-const isActive = await disbursements.isAccountActive({
-  accountHolderIdType: 'MSISDN|EMAIL|PARTY_CODE',
-  accountHolderId: '<account-holder-id>'
-});
-
-// Approve a request for payment
-const paymentOptions = {
-  amount: "string", // A number as a string
-  currency: "string",
-  externalId: "string",
-  payee: {
-    partyIdType: "MSISDN|EMAIL|PARTY_CODE",
-    partyId: "string"
-  },
-  payerMessage: "string",
-  payeeNote: "string"
-};
-const transactionId = await disbursements.initiate({
-  callbackUrl: '<callback-url>',
-  paymentOptions: paymentOptions
-});
-
-// Check the status of a payment
-const transaction = await disbursements.fetchTransaction(transactionId);
-const {
-  amount,
-  currency,
-  financialTransactionId,
-  externalId,
-  payee: {
-    partyIdType,
-    partyId
-  },
-  status: "SUCCESSFUL|FAILED|PENDING",
-  reason: {
-    code,
-    message
-  }
-} = transaction;
-
-// Check my account balance
-const accountBalance = await disbursements.fetchAccountBalance();
-const { availableBalance, currency } = accountBalance;
-
-/* End Remittances API */
-
-
-
-/* Remittances API */
-
-// (optional) Get an access token
-const token = await remittances.getToken();
-const { access_token, token_type, expires_in } = token;
-
-// Check if an account is active. Returns a boolean value
-const isActive = await remittances.isAccountActive({
-  accountHolderIdType: 'MSISDN|EMAIL|PARTY_CODE',
-  accountHolderId: '<account-holder-id>'
-});
-
-// Approve a request for payment
-const paymentOptions = {
-  amount: "string", // A number as a string
-  currency: "string",
-  externalId: "string",
-  payee: {
-    partyIdType: "MSISDN|EMAIL|PARTY_CODE",
-    partyId: "string"
-  },
-  payerMessage: "string",
-  payeeNote: "string"
-};
-const transactionId = await remittances.initiate({
-  callbackUrl: '<callback-url>',
-  paymentOptions: paymentOptions
-});
-
-// Check the status of a payment
-const transaction = await remittances.fetchTransaction(transactionId);
-const {
-  amount,
-  currency,
-  financialTransactionId,
-  externalId,
-  payee: {
-    partyIdType,
-    partyId
-  },
-  status: "SUCCESSFUL|FAILED|PENDING",
-  reason: {
-    code,
-    message
-  }
-} = transaction;
-
-// Check my account balance
-const accountBalance = await remittances.fetchAccountBalance();
-const { availableBalance, currency } = accountBalance;
-
-/* End Remittances API */
 
 ```
