@@ -1,8 +1,9 @@
 {
   "name": "mtn-momo",
   "version": "1.0.0",
-  "description": "Node.js handler for the MTN Mobile Money API",
+  "description": "Node.js wrapper for the MTN Mobile Money API",
   "main": "index.js",
+  "scope": "@glennfaison",
   "scripts": {
     "test": "NODE_ENV=testing mocha ./**/*.spec.js --exclude=./node_modules/**/* --no-timeouts --recursive --exit"
   },
