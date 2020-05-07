@@ -5,7 +5,7 @@
   "main": "index.js",
   "scope": "@glennfaison",
   "scripts": {
-    "test": "NODE_ENV=testing mocha ./**/*.spec.js --exclude=./node_modules/**/* --no-timeouts --recursive --exit"
+    "test": "mocha ./**/*.spec.js --exclude=./node_modules/**/* --no-timeouts --recursive --exit"
   },
   "repository": {
     "type": "git",
