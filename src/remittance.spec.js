@@ -6,7 +6,7 @@ const { useRemittances, useUserProvisioning } = require('.');
 
 config();
 
-describe.only('Single run-through for Remittances API', () => {
+describe('Single run-through for Remittances API', () => {
   it('should not throw', async () => {
     // Import package
 
