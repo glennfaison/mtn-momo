@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-          scope: "glennfaison"
+          scope: "@glennfaison"
       - run: yarn install
       - run: git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com" && git config --global user.name "$GITHUB_ACTOR"
       - run: yarn version --minor
@@ -36,8 +36,8 @@ jobs:
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          PROVIDER_CALLBACK_HOST: http://test.com
-          TARGET_ENVIRONMENT: sandbox
+          PROVIDER_CALLBACK_HOST: ${{secrets.PROVIDER_CALLBACK_HOST}}
+          TARGET_ENVIRONMENT: ${{secrets.TARGET_ENVIRONMENT}}
           COLLECTIONS_PRIMARY_KEY: ${{secrets.COLLECTIONS_PRIMARY_KEY}}
           COLLECTIONS_SECONDARY_KEY: ${{secrets.COLLECTIONS_SECONDARY_KEY}}
           DISBURSEMENTS_PRIMARY_KEY: ${{secrets.DISBURSEMENTS_PRIMARY_KEY}}
