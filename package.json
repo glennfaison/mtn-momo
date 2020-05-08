@@ -1,5 +1,5 @@
 {
-  "name": "mtn-momo",
+  "name": "mtn_momo",
   "version": "1.0.0",
   "description": "Node.js wrapper for the MTN Mobile Money API",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/glennfaison/mtn-momo.git"
+    "url": "git+https://github.com/glennfaison/mtn_momo.git"
   },
   "keywords": [
     "MTN",
@@ -26,9 +26,9 @@
     "registry": "https://npm.pkg.github.com/glennfaison"
   },
   "bugs": {
-    "url": "https://github.com/glennfaison/mtn-momo/issues"
+    "url": "https://github.com/glennfaison/mtn_momo/issues"
   },
-  "homepage": "https://github.com/glennfaison/mtn-momo#readme",
+  "homepage": "https://github.com/glennfaison/mtn_momo#readme",
   "devDependencies": {
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
