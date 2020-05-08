@@ -1,11 +1,11 @@
-# mtn-momo
+# mtn_momo
 Node.js wrapper for the MTN Mobile Money API
 
 ## Using the Collections API
 ```javascript
 
 // Import the module
-const { useUserProvisioning, useCollections } = require('mtn-momo');
+const { useUserProvisioning, useCollections } = require('mtn_momo');
 
 const subscriptionKey = 'COLLECTIONS_PRIMARY_KEY';
 
@@ -85,7 +85,7 @@ const { currency, availableBalance } = accountBalance;
 ```javascript
 
 // Import the module
-const { useUserProvisioning, useDisbursements } = require('mtn-momo');
+const { useUserProvisioning, useDisbursements } = require('mtn_momo');
 
 const subscriptionKey = 'DISBURSEMENTS_PRIMARY_KEY';
 
@@ -165,7 +165,7 @@ const { currency, availableBalance } = accountBalance;
 ```javascript
 
 // Import the module
-const { useUserProvisioning, useRemittances } = require('mtn-momo');
+const { useUserProvisioning, useRemittances } = require('mtn_momo');
 
 const subscriptionKey = 'REMITTANCES_PRIMARY_KEY';
 
