@@ -40,6 +40,8 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@glennfaison"
           always-auth: true
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - run: yarn install
       - run: git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com" && git config --global user.name "$GITHUB_ACTOR"
       - run: yarn version --minor
