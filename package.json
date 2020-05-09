@@ -1,5 +1,5 @@
 {
-  "name": "@glennfaison/mtn_momo",
+  "name": "mtn_momo",
   "version": "1.0.0",
   "description": "Node.js wrapper for the MTN Mobile Money API",
   "main": "index.js",
