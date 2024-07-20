@@ -11,8 +11,9 @@ const defaultContentType = 'application/json';
 class UserProvisioningAPI {
   constructor () {
     // Ensure there is only ever one instance of this class in the runtime
-    if (UserProvisioningAPI.singleton) { return UserProvisioningAPI.singleton; }
-    UserProvisioningAPI.singleton = this;
+    if (!UserProvisioningAPI.singleton) {
+      UserProvisioningAPI.singleton = this;
+    }
   }
 
   /**
